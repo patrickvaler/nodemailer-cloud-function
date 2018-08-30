@@ -1,0 +1,23 @@
+{
+  "name": "nodemailer-cloud-function",
+  "version": "1.0.0",
+  "description": "Google Cloud Function to send mails with nodemailer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickvaler/nodemailer-cloud-function.git"
+  },
+  "author": "Patrick Valer <info@patrickvaler.ch>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patrickvaler/nodemailer-cloud-function/issues"
+  },
+  "homepage": "https://github.com/patrickvaler/nodemailer-cloud-function#readme",
+  "dependencies": {
+    "nodemailer": "^4.6.8",
+    "validator": "^10.7.0"
+  }
+}
