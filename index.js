@@ -11,16 +11,34 @@ function handlePOST(req, res) {
   const { name, from, message } = req.body;
   const { EMAIL_SUBJECT, EMAIL_TO, SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER, SMTP_SECURE } = process.env;
 
+  const errors = [];
+
   if (!(name && name.length >= 3)) {
-    res.status(400).send({ error: 'Please enter a Name with at least 3 characters' });
+    errors.push({
+      field: 'name',
+      message: 'Please enter a Name with at least 3 characters'
+    });
   }
 
   if (!isEmail(from)) {
-    res.status(400).send({ error: "Please enter your email address in format: 'yourname@example.com'" });
+    errors.push({
+      field: 'email',
+      message: "Please enter your email address in format: 'yourname@example.com'"
+    });
   }
 
   if (!(message && message.length >= 10)) {
-    res.status(400).send({ error: 'Please enter a Message with at least 10 characters' });
+    errors.push({
+      field: 'message',
+      message: 'Please enter a Message with at least 10 characters'
+    });
+  }
+
+  if (errors.length) {
+    return res.status(400).send({
+      notifications: errors,
+      success: false
+    });
   }
 
   const transporter = nodemailer.createTransport({
@@ -42,7 +60,14 @@ function handlePOST(req, res) {
 
   transporter.sendMail(options, error => {
     if (error) {
-      res.status(422).send({ error: 'E-Mail delivery is failed' });
+      res.status(422).send({
+        success: false,
+        notifications: [
+          {
+            message: 'E-Mail delivery is failed'
+          }
+        ]
+      });
     }
 
     res.sendStatus(200);
